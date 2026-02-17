@@ -1,0 +1,34 @@
+[
+    {
+      "email": "john.doe@example.com",
+      "password": "Password123",
+      "name": "John Doe",
+      "branch": "teaxo",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "email": "jane.smith@example.com",
+      "password": "SecurePass456",
+      "name": "Jane Smith",
+      "branch": "teaxo",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "email": "mike.lee@example.com",
+      "password": "MyPassword789",
+      "name": "Mike Lee",
+      "branch": "teaxo",
+      "role": "admin",
+      "status": "active"
+    },
+    {
+      "email": "lisa.brown@example.com",
+      "password": "Passw0rd321",
+      "name": "Lisa Brown",
+      "branch": "teaxo",
+      "role": "user",
+      "status": "inactive"
+    }
+]
