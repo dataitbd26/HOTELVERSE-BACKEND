@@ -12,6 +12,15 @@ import RoomCategoryRoutes from "../app/modules/RoomCategory/RoomCategories.route
 import GuestRoutes from "../app/modules/Guest/Guests.routes.js";
 import StayInfoRoutes from "../app/modules/StayInfo/StayInfos.routes.js";
 import OrganizationRoutes from "../app/modules/Organization/Organizations.routes.js";
+import PaymentMethodRoutes from "../app/modules/PaymentMethod/PaymentMethods.routes.js";
+import LedgerRoutes from "../app/modules/Ledger/Ledgers.routes.js";
+import BlockRoomRoutes from "../app/modules/BlockRoom/BlockRooms.routes.js";
+import WorkOrderRoutes from "../app/modules/WorkOrder/WorkOrders.routes.js";
+import HouseKeeperRoutes from "../app/modules/HouseKeeper/HouseKeepers.routes.js";
+import HouseKeepingStatusRoutes from "../app/modules/HouseKeepingStatus/HouseKeepingStatus.routes.js";
+import WorkOrderCategoryRoutes from "../app/modules/WorkOrderCategory/WorkOrderCategory.routes.js";
+import RemarkHouseKeepingRoutes from "../app/modules/RemarkHouseKeeping/remarkHouseKeeping.routes.js";
+
 
 // Used Controllers / Middleware
 import { getImageUrl } from "../config/space.js";
@@ -34,6 +43,14 @@ routes.use("/roomcategory", RoomCategoryRoutes);
 routes.use("/guest", GuestRoutes);
 routes.use("/stayinfo", StayInfoRoutes);
 routes.use("/organization", OrganizationRoutes);
+routes.use("/paymentmethod", PaymentMethodRoutes);
+routes.use("/ledger", LedgerRoutes);
+routes.use("/blockroom", BlockRoomRoutes);
+routes.use("/workorder", WorkOrderRoutes);
+routes.use("/housekeeper", HouseKeeperRoutes);
+routes.use("/housekeeping-status", HouseKeepingStatusRoutes);
+routes.use("/workorder-category", WorkOrderCategoryRoutes);
+routes.use("/remark-housekeeping", RemarkHouseKeepingRoutes);
 routes.post("/get-image-url", getImageUrl);
 
 export default routes;
