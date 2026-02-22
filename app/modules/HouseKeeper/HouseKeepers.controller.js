@@ -3,19 +3,10 @@ import HouseKeeper from "./HouseKeepers.model.js";
 // Get all house keepers
 export async function getAllHouseKeepers(req, res) {
   try {
-    const result = await HouseKeeper.find();
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-}
-
-export async function getSuperAdminHouseKeepers(req, res) {
-  try {
     const { 
         page = 1, 
         limit = 10, 
-        search = ''
+        branch 
     } = req.query;
 
     const pageNum = parseInt(page, 10);
@@ -24,18 +15,16 @@ export async function getSuperAdminHouseKeepers(req, res) {
 
     // --- Build Filter Query ---
     const query = {};
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { phone: { $regex: search, $options: 'i' } },
-        { language: { $regex: search, $options: 'i' } },
-      ];
+    
+    // If a branch is provided in the query params, add it to the filter
+    if (branch) {
+      query.branch = branch; 
     }
 
     // --- Execute Queries ---
     const [houseKeepers, totalItems] = await Promise.all([
         HouseKeeper.find(query)
-            .sort({ createdAt: -1 })
+            .sort({ createdAt: -1 }) // Sorts newest first
             .skip(skip)
             .limit(limitNum),
         HouseKeeper.countDocuments(query)
@@ -55,6 +44,8 @@ export async function getSuperAdminHouseKeepers(req, res) {
     res.status(500).send({ error: "Server error fetching house keeper data: " + err.message });
   }
 }
+
+
 
 export async function getHouseKeeperById(req, res) {
   const id = req.params.id;
