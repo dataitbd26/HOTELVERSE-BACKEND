@@ -20,6 +20,7 @@ import HouseKeeperRoutes from "../app/modules/HouseKeeper/HouseKeepers.routes.js
 import HouseKeepingStatusRoutes from "../app/modules/HouseKeepingStatus/HouseKeepingStatus.routes.js";
 import WorkOrderCategoryRoutes from "../app/modules/WorkOrderCategory/WorkOrderCategory.routes.js";
 import RemarkHouseKeepingRoutes from "../app/modules/RemarkHouseKeeping/remarkHouseKeeping.routes.js";
+import EmailAccountRoutes from "../app/modules/EmailAccount/EmailAccounts.routes.js";
 
 
 // Used Controllers / Middleware
@@ -51,6 +52,7 @@ routes.use("/housekeeper", HouseKeeperRoutes);
 routes.use("/housekeeping-status", HouseKeepingStatusRoutes);
 routes.use("/workorder-category", WorkOrderCategoryRoutes);
 routes.use("/remark-housekeeping", RemarkHouseKeepingRoutes);
+routes.use("/emailaccount", EmailAccountRoutes);
 routes.post("/get-image-url", getImageUrl);
 
 export default routes;
