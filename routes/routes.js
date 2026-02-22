@@ -40,7 +40,7 @@ routes.use("/userlog", UserlogRoutes);
 routes.use("/transaction-logs", TransactionLogRoutes);
 routes.use("/userrole", UserRoleRoutes);
 routes.use("/role-permissions", rolepermissionRoutes);
-routes.use("/roomcategory", RoomCategoryRoutes);
+routes.use("/room-category", RoomCategoryRoutes);
 routes.use("/guest", GuestRoutes);
 routes.use("/stayinfo", StayInfoRoutes);
 routes.use("/organization", OrganizationRoutes);

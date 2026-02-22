@@ -1,10 +1,38 @@
 import RoomCategory from "./RoomCategories.model.js";
 
-// Get all room categories
+
 export async function getAllRoomCategories(req, res) {
   try {
-    const result = await RoomCategory.find();
-    res.status(200).json(result);
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;  
+    const branch = req.query.branch;
+
+
+    const query = {};
+    if (branch) {
+      query.branch = branch;
+      
+    }
+
+   
+    const skip = (page - 1) * limit;
+
+
+    const [result, total] = await Promise.all([
+      RoomCategory.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }), 
+      RoomCategory.countDocuments(query)
+    ]);
+
+    res.status(200).json({
+      data: result,
+      meta: {
+        totalItems: total,
+        currentPage: page,
+        itemsPerPage: limit,
+        totalPages: Math.ceil(total / limit),
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -66,7 +94,7 @@ export async function updateRoomCategory(req, res) {
       updateData, 
       { 
         new: true, 
-        runValidators: true // Ensures the update still follows schema rules (like required fields)
+        runValidators: true 
       }
     );
 

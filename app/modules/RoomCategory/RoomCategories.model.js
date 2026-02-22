@@ -1,8 +1,7 @@
-
-
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
+
 const RoomCategorySchema = Schema(
   {
     branch: {
@@ -12,6 +11,10 @@ const RoomCategorySchema = Schema(
     categoryName: {
       type: String,
       required: [true, "Please provide the category name"],
+    },
+    facilities: {
+      type: [String],
+      default: [],
     },
   },
   { timestamps: true }
