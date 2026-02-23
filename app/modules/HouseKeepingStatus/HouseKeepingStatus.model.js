@@ -15,6 +15,10 @@ const HouseKeepingStatusSchema = Schema(
       type: Boolean,
       required: [true, "Please specify if dirty or not"],
     },
+    branch: {
+      type: String,
+      required: [true, "Please provide the branch name"],
+    },
   },
   { timestamps: true }
 );

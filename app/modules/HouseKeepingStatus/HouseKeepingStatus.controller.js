@@ -12,34 +12,36 @@ export async function getAllHouseKeepingStatuses(req, res) {
 
 export async function getSuperAdminHouseKeepingStatuses(req, res) {
   try {
-    const { 
-        page = 1, 
-        limit = 10, 
-        search = ''
+    const {
+      page = 1,
+      limit = 10,
+      search = ''
     } = req.query;
 
     const pageNum = parseInt(page, 10);
     const limitNum = parseInt(limit, 10);
     const skip = (pageNum - 1) * limitNum;
 
-    // --- Build Filter Query ---
+
+    // Inside getSuperAdminHouseKeepingStatuses
     const query = {};
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
         { colorCode: { $regex: search, $options: 'i' } },
+        { branch: { $regex: search, $options: 'i' } }, // Add this line
       ];
     }
 
     // --- Execute Queries ---
     const [statuses, totalItems] = await Promise.all([
-        HouseKeepingStatus.find(query)
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limitNum),
-        HouseKeepingStatus.countDocuments(query)
+      HouseKeepingStatus.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum),
+      HouseKeepingStatus.countDocuments(query)
     ]);
-      
+
     res.status(200).json({
       data: statuses,
       pagination: {
@@ -88,6 +90,8 @@ export async function updateHouseKeepingStatus(req, res) {
     const result = await HouseKeepingStatus.findByIdAndUpdate(id, statusData, {
       new: true,
     });
+
+    console.log("Update result:", result); // Debugging log   
     if (result) {
       res.status(200).json(result);
     } else {

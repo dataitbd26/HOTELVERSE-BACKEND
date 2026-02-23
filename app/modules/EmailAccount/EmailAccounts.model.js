@@ -18,7 +18,7 @@ const EmailAccountSchema = Schema(
     },
     port: {
       type: Number,
-      required: [true, "Please provide the port"],
+      required: [true, "Please provide the port number"],
     },
     username: {
       type: String,
@@ -30,18 +30,22 @@ const EmailAccountSchema = Schema(
     },
     ssl: {
       type: Boolean,
-      required: [true, "Please provide the ssl status"],
+      required: [true, "Please specify if SSL is enabled"],
     },
     useDefaultCredential: {
       type: Boolean,
-      required: [true, "Please provide the default credential status"],
+      required: [true, "Please specify if default credential is used"],
     },
     adminEmail: {
       type: String,
     },
     active: {
       type: Boolean,
-      required: [true, "Please provide the active status"],
+      required: [true, "Please specify if the account is active"],
+    },
+    branch: {
+      type: String,
+      required: [true, "Please provide the branch"],
     },
   },
   { timestamps: true }
