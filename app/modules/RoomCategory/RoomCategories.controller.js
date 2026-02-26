@@ -1,10 +1,42 @@
 import RoomCategory from "./RoomCategories.model.js";
 
-// Get all room categories
+// Get all room categories with Pagination, Search (including facility), and Branch Filtering
 export async function getAllRoomCategories(req, res) {
   try {
-    const result = await RoomCategory.find();
-    res.status(200).json(result);
+    const { page = 1, limit = 10, search = "", branch } = req.query;
+
+    if (!branch) {
+      return res.status(400).json({ error: "Branch is required" });
+    }
+
+    const query = { branch };
+
+    if (search) {
+      query.$or = [
+        { categoryName: { $regex: search, $options: "i" } },
+        { facility: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const totalDocuments = await RoomCategory.countDocuments(query);
+    const data = await RoomCategory.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNumber);
+
+    res.status(200).json({
+      data,
+      pagination: {
+        totalDocuments,
+        totalPages: Math.ceil(totalDocuments / limitNumber),
+        currentPage: pageNumber,
+        limit: limitNumber,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -25,7 +57,7 @@ export async function getRoomCategoryById(req, res) {
   }
 }
 
-// Get room categories by branch
+// Get room categories by branch (Helper route)
 export const getRoomCategoriesByBranch = async (req, res) => {
   const { branch } = req.params;
   try {
@@ -36,12 +68,11 @@ export const getRoomCategoriesByBranch = async (req, res) => {
   }
 };
 
-// Create a new room category (Now expects branch, categoryName, and facility)
+// Create a new room category (includes facility)
 export async function createRoomCategory(req, res) {
   try {
     const { branch, categoryName, facility } = req.body;
     
-    // Explicitly creating the object to ensure required fields are present
     const newRoomCategory = await RoomCategory.create({
       branch,
       categoryName,
@@ -50,7 +81,6 @@ export async function createRoomCategory(req, res) {
 
     res.status(201).json(newRoomCategory);
   } catch (err) {
-    // Mongoose validation errors will be caught here
     res.status(400).json({ error: err.message });
   }
 }
@@ -66,7 +96,7 @@ export async function updateRoomCategory(req, res) {
       updateData, 
       { 
         new: true, 
-        runValidators: true // Ensures the update still follows schema rules (like required fields)
+        runValidators: true
       }
     );
 

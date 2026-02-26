@@ -1,5 +1,3 @@
-
-
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
@@ -12,6 +10,10 @@ const RoomCategorySchema = Schema(
     categoryName: {
       type: String,
       required: [true, "Please provide the category name"],
+    },
+    facility: {
+      type: String,
+      required: false,
     },
   },
   { timestamps: true }

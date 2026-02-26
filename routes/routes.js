@@ -21,8 +21,10 @@ import HouseKeepingStatusRoutes from "../app/modules/HouseKeepingStatus/HouseKee
 import WorkOrderCategoryRoutes from "../app/modules/WorkOrderCategory/WorkOrderCategory.routes.js";
 import RemarkHouseKeepingRoutes from "../app/modules/RemarkHouseKeeping/remarkHouseKeeping.routes.js";
 import EmailAccountRoutes from "../app/modules/EmailAccount/EmailAccounts.routes.js";
+import RoomRoutes from "../app/modules/Room/Rooms.routes.js";
+import UnitRoutes from "../app/modules/Unit/Units.routes.js";
 
-
+    
 // Used Controllers / Middleware
 import { getImageUrl } from "../config/space.js";
 import transactionLogger from "../middleware/transactionLogger.js";
@@ -53,6 +55,8 @@ routes.use("/housekeeping-status", HouseKeepingStatusRoutes);
 routes.use("/workorder-category", WorkOrderCategoryRoutes);
 routes.use("/remark-housekeeping", RemarkHouseKeepingRoutes);
 routes.use("/emailaccount", EmailAccountRoutes);
+routes.use("/room", RoomRoutes);
+routes.use("/unit", UnitRoutes);
 routes.post("/get-image-url", getImageUrl);
 
 export default routes;

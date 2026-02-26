@@ -1,21 +1,25 @@
-// remarkHouseKeeping.model.js
 import mongoose from "mongoose";
-const { Schema, model } = mongoose;
 
-const RemarkHouseKeepingSchema = Schema(
+const remarkHouseKeepingSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please provide the remark name"],
+      required: true,
+      trim: true,
     },
     remark: {
       type: String,
-      required: [true, "Please provide the remark description"],
+      required: true,
+      trim: true,
+    },
+    branch: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-const RemarkHouseKeeping = model("RemarkHouseKeeping", RemarkHouseKeepingSchema);
+const RemarkHouseKeeping = mongoose.model("RemarkHouseKeeping", remarkHouseKeepingSchema);
 
 export default RemarkHouseKeeping;
