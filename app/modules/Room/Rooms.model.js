@@ -1,38 +1,28 @@
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
+
 const RoomSchema = Schema(
   {
     branch: {
       type: String,
       required: [true, "Please provide the branch"],
+      trim: true,
     },
     roomName: {
       type: String,
       required: [true, "Please provide the room name"],
+      trim: true,
     },
     roomCategory: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "RoomCategory",
       required: [true, "Please provide the room category"],
     },
     bookingStatus: {
       type: String,
       enum: ["occupied", "vacant", "blocked"],
       default: "vacant",
-    },
-    person: {
-      adult: {
-        type: Number,
-        required: [true, "Please provide the number of adults"],
-      },
-      child: {
-        type: Number,
-        default: 0,
-      },
-    },
-    rate: {
-      type: Number,
-      required: [true, "Please provide the rate"],
     },
     roomSituation: {
       type: String,
@@ -41,6 +31,7 @@ const RoomSchema = Schema(
     },
     roomPhoto: {
       type: String,
+      default: "",
     },
   },
   { timestamps: true }

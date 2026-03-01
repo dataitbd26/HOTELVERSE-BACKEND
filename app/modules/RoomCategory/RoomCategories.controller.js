@@ -1,6 +1,6 @@
 import RoomCategory from "./RoomCategories.model.js";
 
-// Get all room categories with Pagination, Search (including facility), and Branch Filtering
+// Get all room categories with Pagination, Search, and Branch Filtering
 export async function getAllRoomCategories(req, res) {
   try {
     const { page = 1, limit = 10, search = "", branch } = req.query;
@@ -15,6 +15,7 @@ export async function getAllRoomCategories(req, res) {
       query.$or = [
         { categoryName: { $regex: search, $options: "i" } },
         { facility: { $regex: search, $options: "i" } },
+        { beddingType: { $regex: search, $options: "i" } },
       ];
     }
 
@@ -68,15 +69,18 @@ export const getRoomCategoriesByBranch = async (req, res) => {
   }
 };
 
-// Create a new room category (includes facility)
+// Create a new room category
 export async function createRoomCategory(req, res) {
   try {
-    const { branch, categoryName, facility } = req.body;
+    const { branch, categoryName, facility, rate, person, beddingType } = req.body;
     
     const newRoomCategory = await RoomCategory.create({
       branch,
       categoryName,
-      facility
+      facility,
+      rate,
+      person,
+      beddingType
     });
 
     res.status(201).json(newRoomCategory);
@@ -94,10 +98,7 @@ export async function updateRoomCategory(req, res) {
     const result = await RoomCategory.findByIdAndUpdate(
       id, 
       updateData, 
-      { 
-        new: true, 
-        runValidators: true
-      }
+      { new: true, runValidators: true }
     );
 
     if (result) {

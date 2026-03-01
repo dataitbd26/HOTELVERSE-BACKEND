@@ -1,12 +1,58 @@
 import HouseKeeper from "./HouseKeepers.model.js";
 
 // Get all house keepers
+// Replace your existing getAllHouseKeepers with this updated one:
 export async function getAllHouseKeepers(req, res) {
   try {
-    const result = await HouseKeeper.find();
-    res.status(200).json(result);
+    const { 
+        page = 1, 
+        limit = 10, 
+        search = '',
+        branch // Catching the branch sent from frontend
+    } = req.query;
+
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    const skip = (pageNum - 1) * limitNum;
+
+    // --- Build Filter Query ---
+    const query = {};
+    
+    // Filter by branch
+    if (branch) {
+      query.branch = branch;
+    }
+
+    // Filter by search term
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } },
+        { language: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // --- Execute Queries ---
+    const [houseKeepers, totalItems] = await Promise.all([
+        HouseKeeper.find(query)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limitNum),
+        HouseKeeper.countDocuments(query)
+    ]);
+      
+    res.status(200).json({
+      data: houseKeepers,
+      pagination: {
+        totalDocuments: totalItems,
+        totalPages: Math.ceil(totalItems / limitNum),
+        currentPage: pageNum,
+        limit: limitNum,
+      },
+    });
+
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).send({ error: "Server error fetching house keeper data: " + err.message });
   }
 }
 

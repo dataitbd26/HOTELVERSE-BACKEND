@@ -1,5 +1,3 @@
-// File: Organizations.model.js
-
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
@@ -27,14 +25,25 @@ const OrganizationsSchema = Schema(
         type: String,
         required: [true, "Please provide the state"],
       },
+      country: {
+        type: String,
+      },
+      district: {
+        type: String,
+      },
+      address1: {
+        type: String,
+      },
+      address2: {
+        type: String,
+      },
     },
     phone: {
       type: String,
       required: [true, "Please provide the organization phone number"],
     },
-    registrationNumber: {
+    companyLicenseNumber: {
       type: String,
-      required: [true, "Please provide the registration number"],
     },
     ratePlan: {
       type: String,
@@ -47,28 +56,14 @@ const OrganizationsSchema = Schema(
     notes: {
       type: String,
     },
-    roomRates: {
-      byDefault: {
-        type: Number,
-        default: 100,
-      },
-      roomType: {
-        type: String,
-        required: [true, "Please provide the room type"],
-      },
-      minDays: {
-        type: Number,
-        required: [true, "Please provide the minimum days"],
-      },
-      extraAdultRate: {
-        type: Number,
-        required: [true, "Please provide the extra adult rate"],
-      },
-      extraChildRate: {
-        type: Number,
-        required: [true, "Please provide the extra child rate"],
-      },
+    addAsLedger: {
+      type: Boolean,
+      default: false,
     },
+    branch: {
+      type: String,
+      required: [true, "Please provide the branch"],
+    }
   },
   { timestamps: true }
 );

@@ -13,7 +13,25 @@ const RoomCategorySchema = Schema(
     },
     facility: {
       type: String,
-      required: false,
+      default: "",
+    },
+    rate: {
+      type: Number,
+      required: [true, "Please provide the rate"],
+    },
+    person: {
+      adult: {
+        type: Number,
+        required: [true, "Please provide the number of adults"],
+      },
+      child: {
+        type: Number,
+        default: 0,
+      },
+    },
+    beddingType: {
+      type: String,
+      required: [true, "Please provide the bedding type"],
     },
   },
   { timestamps: true }

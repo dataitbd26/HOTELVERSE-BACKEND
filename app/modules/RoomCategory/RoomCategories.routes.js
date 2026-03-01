@@ -7,20 +7,15 @@ import {
   removeRoomCategory,
   getRoomCategoriesByBranch,
 } from "./RoomCategories.controller.js";
-import { authenticateToken } from "../../../middleware/authMiddleware.js"; // Adjust path if needed
+import { authenticateToken } from "../../../middleware/authMiddleware.js"; 
 
-const RoomCategoryRoutes = Router();
+const router = Router();
 
-// Public route to get all room categories (Now handles pagination & search)
-RoomCategoryRoutes.get("/", getAllRoomCategories);
+router.get("/", authenticateToken, getAllRoomCategories);
+router.get("/get-id/:id", authenticateToken, getRoomCategoryById);
+router.post("/post", authenticateToken, createRoomCategory);
+router.put("/update/:id", authenticateToken, updateRoomCategory);
+router.delete("/delete/:id", authenticateToken, removeRoomCategory);
+router.get("/branch/:branch", authenticateToken, getRoomCategoriesByBranch);
 
-// Authenticated routes
-RoomCategoryRoutes.get("/get-id/:id", authenticateToken, getRoomCategoryById);
-RoomCategoryRoutes.post("/post", authenticateToken, createRoomCategory);
-RoomCategoryRoutes.put("/update/:id", authenticateToken, updateRoomCategory);
-RoomCategoryRoutes.delete("/delete/:id", authenticateToken, removeRoomCategory);
-
-// Public route to get room categories by branch
-RoomCategoryRoutes.get("/branch/:branch", getRoomCategoriesByBranch);
-
-export default RoomCategoryRoutes;
+export default router;

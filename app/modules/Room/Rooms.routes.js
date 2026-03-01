@@ -9,18 +9,14 @@ import {
 } from "./Rooms.controller.js";
 import { authenticateToken } from "../../../middleware/authMiddleware.js";
 
-const RoomRoutes = Router();
+const router = Router();
 
-// Public route to get all rooms - adjust if authentication is needed
-RoomRoutes.get("/", getAllRooms);
+router.get("/", authenticateToken, getAllRooms);
+router.get("/get-id/:id", authenticateToken, getRoomById);
+router.post("/post", authenticateToken, createRoom);
+router.put("/update/:id", authenticateToken, updateRoom);
+router.delete("/delete/:id", authenticateToken, removeRoom);
 
-// Authenticated routes
-RoomRoutes.get("/get-id/:id", authenticateToken, getRoomById);
-RoomRoutes.post("/post", authenticateToken, createRoom);
-RoomRoutes.put("/update/:id", authenticateToken, updateRoom);
-RoomRoutes.delete("/delete/:id", authenticateToken, removeRoom);
+router.get("/branch/:branch", authenticateToken, getRoomsByBranch);
 
-// Public route to get rooms by branch - adjust if needed
-RoomRoutes.get("/branch/:branch", getRoomsByBranch);
-
-export default RoomRoutes;
+export default router;

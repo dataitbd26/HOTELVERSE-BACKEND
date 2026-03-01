@@ -1,5 +1,3 @@
-// File: Organizations.routes.js
-
 import { Router } from "express";
 import {
   createOrganization,

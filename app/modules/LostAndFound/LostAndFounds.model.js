@@ -32,20 +32,25 @@ const LostAndFoundSchema = Schema(
     claimDetail: {
       claimedBy: {
         type: String,
+        default: "",
       },
       phone: {
         type: String,
+        default: "",
       },
       claimedOn: {
         type: Date,
+        default: null,
       },
     },
     returnDetail: {
       returnTo: {
         type: String,
+        default: "",
       },
       returnedOn: {
         type: Date,
+        default: null,
       },
       verified: {
         type: Boolean,
@@ -53,7 +58,13 @@ const LostAndFoundSchema = Schema(
       },
       remark: {
         type: String,
+        default: "",
       },
+    },
+    branch: {
+      type: String,
+      required: [true, "Branch is required"],
+      trim: true,
     },
   },
   { timestamps: true }

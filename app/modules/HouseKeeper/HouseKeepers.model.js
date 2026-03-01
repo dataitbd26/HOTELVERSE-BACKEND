@@ -15,6 +15,11 @@ const HouseKeeperSchema = Schema(
       type: String,
       required: [true, "Please provide the language"],
     },
+    // ---> ADD THIS FIELD <---
+    branch: {
+      type: String,
+      required: [true, "Please provide the branch"],
+    },
   },
   { timestamps: true }
 );

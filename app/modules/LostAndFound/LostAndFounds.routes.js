@@ -1,24 +1,20 @@
 import { Router } from "express";
 import {
-  createLostAndFound,
-  getAllLostAndFounds,
+  getPaginatedLostAndFounds,
   getLostAndFoundById,
+  createLostAndFound,
   updateLostAndFound,
-  removeLostAndFound,
-  getSuperAdminLostAndFounds,
-  getLostAndFoundsByRoom,
+  removeLostAndFound
 } from "./LostAndFounds.controller.js";
 import { authenticateToken } from "../../../middleware/authMiddleware.js"; 
 
-const LostAndFoundRoutes = Router();
+const router = Router();
 
 // Protect all routes with authentication middleware
-LostAndFoundRoutes.get("/", authenticateToken, getAllLostAndFounds);
-LostAndFoundRoutes.get("/get-id/:id", authenticateToken, getLostAndFoundById);
-LostAndFoundRoutes.post("/post", authenticateToken, createLostAndFound);
-LostAndFoundRoutes.put("/update/:id", authenticateToken, updateLostAndFound);
-LostAndFoundRoutes.delete("/delete/:id", authenticateToken, removeLostAndFound);
-LostAndFoundRoutes.get("/room/:room", authenticateToken, getLostAndFoundsByRoom);
-LostAndFoundRoutes.get("/superadmin/all", authenticateToken, getSuperAdminLostAndFounds);
+router.get("/", authenticateToken, getPaginatedLostAndFounds);
+router.get("/get-id/:id", authenticateToken, getLostAndFoundById);
+router.post("/post", authenticateToken, createLostAndFound);
+router.put("/update/:id", authenticateToken, updateLostAndFound);
+router.delete("/delete/:id", authenticateToken, removeLostAndFound);
 
-export default LostAndFoundRoutes;
+export default router;

@@ -1,14 +1,56 @@
-// File: Organizations.controller.js
-
 import Organization from "./Organizations.model.js";
 
-// Get all organizations
+// Get all organizations with Pagination, Search, and Branch Filtering
 export async function getAllOrganizations(req, res) {
   try {
-    const result = await Organization.find();
-    res.status(200).json(result);
+    const { 
+        page = 1, 
+        limit = 10, 
+        search = '',
+        branch
+    } = req.query;
+
+    if (!branch) {
+      return res.status(400).json({ error: "Branch is required" });
+    }
+
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    const skip = (pageNum - 1) * limitNum;
+
+    // --- Build Filter Query ---
+    const query = { branch };
+    
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } },
+        { companyLicenseNumber: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // --- Execute Queries ---
+    const [organizations, totalOrganizations] = await Promise.all([
+        Organization.find(query)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limitNum),
+        Organization.countDocuments(query)
+    ]);
+      
+    res.status(200).json({
+      data: organizations,
+      pagination: {
+        totalDocuments: totalOrganizations,
+        totalPages: Math.ceil(totalOrganizations / limitNum),
+        currentPage: pageNum,
+        limit: limitNum,
+      },
+    });
+
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).json({ error: "Server error fetching organization data: " + err.message });
   }
 }
 
@@ -31,7 +73,7 @@ export async function getSuperAdminOrganizations(req, res) {
         { name: { $regex: search, $options: 'i' } },
         { email: { $regex: search, $options: 'i' } },
         { phone: { $regex: search, $options: 'i' } },
-        { registrationNumber: { $regex: search, $options: 'i' } },
+        { companyLicenseNumber: { $regex: search, $options: 'i' } },
       ];
     }
 
@@ -69,7 +111,7 @@ export async function getOrganizationById(req, res) {
       res.status(404).json({ message: "Organization not found" });
     }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 }
 
@@ -90,7 +132,7 @@ export async function createOrganization(req, res) {
     const result = await Organization.create(organizationData);
     res.status(201).json(result);
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 }
 
@@ -101,6 +143,7 @@ export async function updateOrganization(req, res) {
   try {
     const result = await Organization.findByIdAndUpdate(id, organizationData, {
       new: true,
+      runValidators: true
     });
     if (result) {
       res.status(200).json(result);
@@ -108,7 +151,7 @@ export async function updateOrganization(req, res) {
       res.status(404).json({ message: "Organization not found" });
     }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 }
 
@@ -123,6 +166,6 @@ export async function removeOrganization(req, res) {
       res.status(404).json({ message: "Organization not found" });
     }
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 }

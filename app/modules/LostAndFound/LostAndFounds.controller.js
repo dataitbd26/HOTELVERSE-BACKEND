@@ -1,21 +1,13 @@
 import LostAndFound from "./LostAndFounds.model.js";
 
-// Get all lost and found items
-export async function getAllLostAndFounds(req, res) {
-  try {
-    const result = await LostAndFound.find();
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).send({ error: err.message });
-  }
-}
-
-export async function getSuperAdminLostAndFounds(req, res) {
+// Get paginated lost and found items (with search and branch filter)
+export async function getPaginatedLostAndFounds(req, res) {
   try {
     const { 
         page = 1, 
         limit = 10, 
-        search = ''
+        search = '',
+        branch
     } = req.query;
 
     const pageNum = parseInt(page, 10);
@@ -24,6 +16,11 @@ export async function getSuperAdminLostAndFounds(req, res) {
 
     // --- Build Filter Query ---
     const query = {};
+    
+    if (branch) {
+      query.branch = branch;
+    }
+
     if (search) {
       query.$or = [
         { "itemDetail.room": { $regex: search, $options: 'i' } },
@@ -71,16 +68,6 @@ export async function getLostAndFoundById(req, res) {
     res.status(500).send({ error: err.message });
   }
 }
-
-export const getLostAndFoundsByRoom = async (req, res) => {
-  const { room } = req.params;
-  try {
-    const items = await LostAndFound.find({ "itemDetail.room": room });
-    res.status(200).json(items);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch lost and found items", error: err.message });
-  }
-};
 
 // Create a new lost and found item
 export async function createLostAndFound(req, res) {

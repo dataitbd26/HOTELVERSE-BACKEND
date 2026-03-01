@@ -9,7 +9,7 @@ import TransactionLogRoutes from "../app/modules/TransactionLog/TransactionLog.r
 import UserRoleRoutes from "../app/modules/UserRole/UserRoles.routes.js";
 import rolepermissionRoutes from "../app/modules/RolePermission/rolePermission.routes.js";
 import RoomCategoryRoutes from "../app/modules/RoomCategory/RoomCategories.routes.js";
-import GuestRoutes from "../app/modules/Guest/Guests.routes.js";
+import GuestRoutes from "../app/modules/Guest/Guest.routes.js";
 import StayInfoRoutes from "../app/modules/StayInfo/StayInfos.routes.js";
 import OrganizationRoutes from "../app/modules/Organization/Organizations.routes.js";
 import PaymentMethodRoutes from "../app/modules/PaymentMethod/PaymentMethods.routes.js";
@@ -23,6 +23,7 @@ import RemarkHouseKeepingRoutes from "../app/modules/RemarkHouseKeeping/remarkHo
 import EmailAccountRoutes from "../app/modules/EmailAccount/EmailAccounts.routes.js";
 import RoomRoutes from "../app/modules/Room/Rooms.routes.js";
 import UnitRoutes from "../app/modules/Unit/Units.routes.js";
+import LostAndFoundRoutes from "../app/modules/LostAndFound/LostAndFounds.routes.js";
 
     
 // Used Controllers / Middleware
@@ -57,6 +58,8 @@ routes.use("/remark-housekeeping", RemarkHouseKeepingRoutes);
 routes.use("/emailaccount", EmailAccountRoutes);
 routes.use("/room", RoomRoutes);
 routes.use("/unit", UnitRoutes);
+routes.use("/lostandfound", LostAndFoundRoutes);
+
 routes.post("/get-image-url", getImageUrl);
 
 export default routes;
