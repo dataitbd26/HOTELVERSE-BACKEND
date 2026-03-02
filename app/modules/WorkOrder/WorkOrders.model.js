@@ -3,18 +3,24 @@ const { Schema, model } = mongoose;
 
 const WorkOrderSchema = Schema(
   {
+    branch: {
+      type: String,
+      required: [true, "Please provide the branch"],
+    },
     detail: {
       order: {
         type: String,
         required: [true, "Please provide the order"],
       },
+      roomUnit: {
+        type: String, // Added to match the UI screenshot
+        required: [true, "Please provide the Room/Unit"],
+      },
       blockFrom: {
         type: Date,
-        required: [true, "Please provide the block from date"],
       },
       blockTo: {
         type: Date,
-        required: [true, "Please provide the block to date"],
       },
       deadline: {
         type: Date,
@@ -52,10 +58,8 @@ const WorkOrderSchema = Schema(
         type: String,
         required: [true, "Please provide the status"],
       },
-      
       workDone: {
         type: String,
-        required: [true, "Please provide the work done information"],
       },
     },
   },

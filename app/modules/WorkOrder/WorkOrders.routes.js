@@ -5,20 +5,16 @@ import {
   getWorkOrderById,
   updateWorkOrder,
   removeWorkOrder,
-  getSuperAdminWorkOrders,
-  getWorkOrdersByWorkCategory,
 } from "./WorkOrders.controller.js";
 import { authenticateToken } from "../../../middleware/authMiddleware.js"; 
 
 const WorkOrderRoutes = Router();
 
 // Protect all routes with authentication middleware
-WorkOrderRoutes.get("/", authenticateToken, getAllWorkOrders);
+WorkOrderRoutes.get("/superadmin/all", authenticateToken, getAllWorkOrders); // Adjusted to match the Hook API call
 WorkOrderRoutes.get("/get-id/:id", authenticateToken, getWorkOrderById);
 WorkOrderRoutes.post("/post", authenticateToken, createWorkOrder);
 WorkOrderRoutes.put("/update/:id", authenticateToken, updateWorkOrder);
 WorkOrderRoutes.delete("/delete/:id", authenticateToken, removeWorkOrder);
-WorkOrderRoutes.get("/work-category/:workCategory", authenticateToken, getWorkOrdersByWorkCategory);
-WorkOrderRoutes.get("/superadmin/all", authenticateToken, getSuperAdminWorkOrders);
 
 export default WorkOrderRoutes;
