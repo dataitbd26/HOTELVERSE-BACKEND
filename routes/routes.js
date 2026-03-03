@@ -24,6 +24,9 @@ import EmailAccountRoutes from "../app/modules/EmailAccount/EmailAccounts.routes
 import RoomRoutes from "../app/modules/Room/Rooms.routes.js";
 import UnitRoutes from "../app/modules/Unit/Units.routes.js";
 import LostAndFoundRoutes from "../app/modules/LostAndFound/LostAndFounds.routes.js";
+import TableReservationRoutes from "../app/modules/TableReservation/TableReservation.routes.js"; 
+import BanquetRoutes from "../app/modules/Banquet/Banquet.routes.js"; 
+import BanquetSalesItemRoutes from "../app/modules/BanquetSalesItem/BanquetSalesItem.routes.js"; // Added Banquet Sales Item Import
 
     
 // Used Controllers / Middleware
@@ -59,6 +62,9 @@ routes.use("/emailaccount", EmailAccountRoutes);
 routes.use("/room", RoomRoutes);
 routes.use("/unit", UnitRoutes);
 routes.use("/lostandfound", LostAndFoundRoutes);
+routes.use("/tablereservation", TableReservationRoutes); 
+routes.use("/banquet", BanquetRoutes); 
+routes.use("/banquetsalesitem", BanquetSalesItemRoutes); // Added Banquet Sales Item Route
 
 routes.post("/get-image-url", getImageUrl);
 
